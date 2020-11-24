@@ -1,0 +1,21 @@
+version: '2'
+services:
+  db:
+    image: postgres:9.4.5
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    volumes:
+      - $PWD/pgdata:/var/lib/postgresql/data
+  backend:
+    build: backend/.
+    ports: 
+      - "9090:8080"
+    depends_on:
+      - db
+  frontend:
+    build: frontend/.
+    ports: 
+      - "9080:80"
+    depends_on: 
+      - backend
