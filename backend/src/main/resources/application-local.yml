@@ -1,29 +1,23 @@
 ## Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
-enabled: true
+enabled: false
 spring:
   config:
     activate:
-      on-profile: default
+      on-profile: local
   datasource:
-    driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: root
-    url: jdbc:postgresql://localhost/postgres
-    platform: postgres
+    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+    username: sa
+    password: sa
+    url: jdbc:hsqldb:file:/tmp/testedb
     initialization-mode: always
     continue-on-error: true
+    data: classpath:hsql-import.sql
   jpa:
     show-sql: false
-    #generate-ddl: false
+#    generate-ddl: false
     hibernate:
       ddl-auto: create
-    database: postgresql
-    properties:
-      hibernate:
-        temp:
-          use_jdbc_metadata_defaults: false;
-    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
-      #dialect: org.hibernate.dialect.MySQL5Dialect
+
 
 #  jackson:
 #    default-property-inclusion: non_null
@@ -40,6 +34,8 @@ spring:
 server:
   servlet:
     contextPath: /api
+  port: 8080
+
 
 jwtSecret: me.zhulin
 jwtExpiration: 86400

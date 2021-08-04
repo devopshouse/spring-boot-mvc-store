@@ -7,7 +7,7 @@ spring:
     url: jdbc:hsqldb:file:/tmp/testedb
     initialization-mode: always
     continue-on-error: true
-    data: classpath*:import.sql
+    data: classpath:import.sql
   jpa:
     show-sql: false
 #    generate-ddl: false
