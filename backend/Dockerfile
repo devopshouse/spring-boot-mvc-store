@@ -1,5 +1,5 @@
-# syntax=docker/dockerfile:experimental
-FROM maven:3.8.1-jdk-11 AS BUILD
+# syntax=docker/dockerfile:1
+FROM maven:3.8.1-jdk-11 AS build
 COPY pom.xml /tmp/
 COPY src /tmp/src/
 WORKDIR /tmp/
@@ -7,5 +7,10 @@ WORKDIR /tmp/
 RUN --mount=type=cache,target=/root/.m2 mvn clean package
 
 FROM openjdk:11-oracle
-COPY --from=BUILD /tmp/target/*.jar app.jar
-ENTRYPOINT ["java", "-jar","/app.jar", "--spring.profiles.active=local"]
+COPY --from=build /tmp/target/*.jar app.jar
+
+# ENV
+ENV DB_HOST localhost
+ENV SPRING_PROFILE default
+
+ENTRYPOINT ["java", "-DDATABASE_HOST=${DB_HOST}", "-jar","/app.jar", "--spring.profiles.active=${SPRING_PROFILE}"]

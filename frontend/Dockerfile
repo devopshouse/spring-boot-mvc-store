@@ -1,4 +1,5 @@
-FROM node as BUILD
+# syntax=docker/dockerfile:1
+FROM node:8.9.4 as BUILD
 WORKDIR /app
 COPY package.json /app/
 RUN npm install --loglevel verbose

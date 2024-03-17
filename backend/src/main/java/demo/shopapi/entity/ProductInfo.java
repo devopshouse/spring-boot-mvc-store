@@ -23,7 +23,12 @@ import lombok.Data;
 @Data
 @DynamicUpdate
 public class ProductInfo implements Serializable {
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5249561807321680361L;
+
+	@Id
     private String productId;
 
     /** 名字. */
@@ -50,8 +55,7 @@ public class ProductInfo implements Serializable {
     @ColumnDefault("0")
     private Integer productStatus;
 
-
-   /** 类目编号. */
+    /** 类目编号. */
     @ColumnDefault("0")
     private Integer categoryType;
 

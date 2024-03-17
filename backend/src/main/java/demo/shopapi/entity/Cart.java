@@ -27,7 +27,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 public class Cart implements Serializable {
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3432472171238295179L;
+
+	@Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long cartId;

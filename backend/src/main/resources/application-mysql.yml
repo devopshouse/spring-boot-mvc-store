@@ -1,0 +1,49 @@
+### Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+enabled: false
+spring:
+  config:
+    activate:
+      on-profile: mysql
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://${DATABASE_HOST:localhost}:3306/shop
+    platform: mysql
+    dialect: org.hibernate.dialect.MySQL8Dialect
+    initialization-mode: always
+    continue-on-error: true
+    data: classpath:mysql-import.sql
+  jpa:
+    show-sql: false
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    database: mysql
+    properties:
+      hibernate:
+        # spring.jpa.properties.hibernate.hbm2ddl.import_files
+        temp:
+          use_jdbc_metadata_defaults: false;
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        storage_engine: innodb
+
+  #  jackson:
+  #    default-property-inclusion: non_null
+  #  redis:
+  #    host: localhost
+  #    port: 6379
+  #  freemarker:
+  #      cache: false
+
+  queries:
+    users-query: select email, password, active from users where email=?
+    roles-query: select email, role from users where email=?
+server:
+  servlet:
+    contextPath: /api
+
+jwtSecret: me.zhulin
+jwtExpiration: 86400
+
+springdoc.swagger-ui.path: /docs

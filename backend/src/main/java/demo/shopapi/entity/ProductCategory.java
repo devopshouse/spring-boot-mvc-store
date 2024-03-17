@@ -19,7 +19,12 @@ import lombok.Data;
 @Data
 @DynamicUpdate
 public class ProductCategory implements Serializable {
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 96752059675081108L;
+
+	@Id
     @GeneratedValue
     private Integer categoryId;
 

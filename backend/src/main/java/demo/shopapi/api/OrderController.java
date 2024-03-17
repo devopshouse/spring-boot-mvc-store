@@ -1,8 +1,6 @@
 package demo.shopapi.api;
 
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import demo.shopapi.entity.OrderMain;
-import demo.shopapi.entity.ProductInOrder;
 import demo.shopapi.service.OrderService;
 import demo.shopapi.service.UserService;
 
@@ -67,14 +64,14 @@ public class OrderController {
     }
 
     @GetMapping("/order/{id}")
-    public ResponseEntity show(@PathVariable("id") Long orderId, Authentication authentication) {
+    public ResponseEntity<?> show(@PathVariable("id") Long orderId, Authentication authentication) {
         boolean isCustomer = authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
         OrderMain orderMain = orderService.findOne(orderId);
         if (isCustomer && !authentication.getName().equals(orderMain.getBuyerEmail())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
-        Collection<ProductInOrder> items = orderMain.getProducts();
+        orderMain.getProducts();
+        
         return ResponseEntity.ok(orderMain);
     }
 }

@@ -38,7 +38,7 @@ public class ProductController {
 
     @GetMapping("/product")
     public Page<ProductInfo> findAll(@RequestParam(value = "page", defaultValue = "1") Integer page,
-                                     @RequestParam(value = "size", defaultValue = "3") Integer size) {
+            @RequestParam(value = "size", defaultValue = "3") Integer size) {
         PageRequest request = PageRequest.of(page - 1, size);
         return productService.findAll(request);
     }
@@ -48,22 +48,21 @@ public class ProductController {
 
         ProductInfo productInfo = productService.findOne(productId);
 
-//        // Product is not available
-//        if (productInfo.getProductStatus().equals(ProductStatusEnum.DOWN.getCode())) {
-//            productInfo = null;
-//        }
+        // // Product is not available
+        // if (productInfo.getProductStatus().equals(ProductStatusEnum.DOWN.getCode()))
+        // {
+        // productInfo = null;
+        // }
 
         return productInfo;
     }
 
     @PostMapping("/seller/product/new")
-    public ResponseEntity create(@Valid @RequestBody ProductInfo product,
-                                 BindingResult bindingResult) {
+    public ResponseEntity<?> create(@Valid @RequestBody ProductInfo product, BindingResult bindingResult) {
         ProductInfo productIdExists = productService.findOne(product.getProductId());
         if (productIdExists != null) {
-            bindingResult
-                    .rejectValue("productId", "error.product",
-                            "There is already a product with the code provided");
+            bindingResult.rejectValue("productId", "error.product",
+                    "There is already a product with the code provided");
         }
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult);
@@ -72,9 +71,8 @@ public class ProductController {
     }
 
     @PutMapping("/seller/product/{id}/edit")
-    public ResponseEntity edit(@PathVariable("id") String productId,
-                               @Valid @RequestBody ProductInfo product,
-                               BindingResult bindingResult) {
+    public ResponseEntity<?> edit(@PathVariable("id") String productId, @Valid @RequestBody ProductInfo product,
+            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult);
         }
@@ -86,7 +84,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/seller/product/{id}/delete")
-    public ResponseEntity delete(@PathVariable("id") String productId) {
+    public ResponseEntity<?> delete(@PathVariable("id") String productId) {
         productService.delete(productId);
         return ResponseEntity.ok().build();
     }

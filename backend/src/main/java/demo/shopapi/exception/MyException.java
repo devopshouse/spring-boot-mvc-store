@@ -8,7 +8,11 @@ import demo.shopapi.enums.ResultEnum;
  */
 public class MyException extends RuntimeException {
 
-    private Integer code;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1463518878850998160L;
+	private Integer code;
 
     public MyException(ResultEnum resultEnum) {
         super(resultEnum.getMessage());

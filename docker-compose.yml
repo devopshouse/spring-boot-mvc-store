@@ -1,18 +1,26 @@
 version: '2'
 services:
   db:
-    image: postgres:9.4.5
+    image: mysql
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: shop
     volumes:
-      - $PWD/pgdata:/var/lib/postgresql/data
+      - $PWD/mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10      
   backend:
     build: backend/.
+    environment:
+      DB_HOST: db
+      SPRING_PROFILE: mysql
     ports: 
       - "9090:8080"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
   frontend:
     build: frontend/.
     ports: 
