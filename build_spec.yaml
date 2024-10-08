@@ -1,0 +1,23 @@
+version: 0.1
+component: build
+timeoutInSeconds: 6000
+shell: bash
+failImmediatelyOnError: true
+env:
+  exportedVariables:
+    - BuildServiceDemoVersion
+
+steps:
+  - type: Command
+    timeoutInSeconds: 400
+    name: "Dockerizer"
+    command: |
+      BuildServiceDemoVersion=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-7`
+      echo $BuildServiceDemoVersion
+      cd backend
+      docker build -t backend
+
+outputArtifacts:
+  - name: backend
+    type: DOCKER_IMAGE
+    location: backend
