@@ -74,7 +74,7 @@ steps:
     name: "Generate values.yaml"
     timeoutInSeconds: 140
     command: |
-      cat <<EOL > /tmp/values.yaml
+      cat <<EOL > ${OCI_WORKSPACE_DIR}/values.yaml
       image:
         tag: at34r7y
       imagePullSecrets:
@@ -86,4 +86,4 @@ outputArtifacts:
     location: backend:latest
   - name: HELM_VALUES
     type: BINARY
-    location: /tmp/values.yaml
+    location: ${OCI_WORKSPACE_DIR}/values.yaml
