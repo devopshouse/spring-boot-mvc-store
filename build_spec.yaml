@@ -70,7 +70,20 @@ steps:
       cd /tmp
       zip -r ${BUILD_CACHE_OS_FILE_NAME} .m2
       oci os object put --bucket-name build-cache --file ${BUILD_CACHE_OS_FILE_NAME} --force
+  - type: Command
+    name: "Generate values.yaml"
+    timeoutInSeconds: 140
+    command: |
+      cat <<EOL > /tmp/values.yaml
+      image:
+        tag: at34r7y
+      imagePullSecrets:
+        - name: ocir-pull-secret
+      EOL
 outputArtifacts:
   - name: APPLICATION_DOCKER_IMAGE
     type: DOCKER_IMAGE
     location: backend:latest
+  - name: HELM_VALUES
+    type: BINARY
+    location: /tmp/values.yaml
