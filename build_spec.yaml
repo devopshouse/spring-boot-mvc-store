@@ -76,7 +76,7 @@ steps:
     command: |
       cat <<EOL > ${OCI_WORKSPACE_DIR}/values.yaml
       image:
-        tag: at34r7y
+        tag: ${BUILDRUN_HASH}
       imagePullSecrets:
         - name: ocir-pull-secret
       EOL
