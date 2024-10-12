@@ -17,6 +17,7 @@ env:
   # For this Build to run, the Build Pipeline needs to have a BUILDRUN_HASH parameter set
   exportedVariables:
     - BUILDRUN_HASH
+    - IMAGE_TAG
 
 steps:
   - type: Command
@@ -25,7 +26,9 @@ steps:
     command: |
       echo "OCI_BUILD_RUN_ID: ${OCI_BUILD_RUN_ID}"
       export BUILDRUN_HASH=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-7`
+      export IMAGE_TAG=$BUILDRUN_HASH
       echo "BUILDRUN_HASH: " $BUILDRUN_HASH
+      echo "IMAGE_TAG: " $IMAGE_TAG
   - type: Command
     name: "Docker BuildKit Setup"
     timeoutInSeconds: 140
